@@ -12,49 +12,59 @@ class SubscriptionsView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('My Subscriptions'),
+        title: const Text(
+          'My Subscriptions',
+          style: TextStyle(fontWeight: FontWeight.w600, letterSpacing: 0.3),
+        ),
         centerTitle: true,
-        backgroundColor: Colors.orange,
-        foregroundColor: Colors.white,
+        elevation: 2,
+        shadowColor: Colors.black.withOpacity(0.1),
       ),
       body: Obx(() => subscriptionsController.subscriptions.isEmpty
           ? Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
-                    Icons.subscriptions_outlined,
-                    size: 80,
-                    color: Colors.grey.shade400,
+                  Container(
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade100,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      Icons.shopping_bag_outlined,
+                      size: 60,
+                      color: Colors.grey.shade400,
+                    ),
                   ),
-                  const SizedBox(height: 20),
-                  Text(
+                  const SizedBox(height: 24),
+                  const Text(
                     'No Active Subscriptions',
                     style: TextStyle(
                       fontSize: 20,
-                      color: Colors.grey.shade600,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.black87,
+                      letterSpacing: -0.3,
                     ),
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    'Browse meal plans to subscribe',
+                    'Browse meal plans to start fresh meals',
                     style: TextStyle(
                       fontSize: 14,
-                      color: Colors.grey.shade500,
+                      color: Colors.grey.shade600,
+                      fontWeight: FontWeight.w400,
                     ),
                   ),
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 40),
                   ElevatedButton.icon(
                     onPressed: () => Get.offNamed(AppRoutes.HOME),
-                    icon: const Icon(Icons.restaurant_menu),
-                    label: const Text('Browse Plans'),
+                    icon: const Icon(Icons.restaurant_menu_rounded),
+                    label: const Text('Browse Meal Plans'),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.orange,
-                      foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 12,
+                        horizontal: 28,
+                        vertical: 14,
                       ),
                     ),
                   ),
@@ -62,128 +72,207 @@ class SubscriptionsView extends StatelessWidget {
               ),
             )
           : ListView.builder(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
               itemCount: subscriptionsController.subscriptions.length,
               itemBuilder: (context, index) {
                 final mealPlan = subscriptionsController.subscriptions[index];
-                return Card(
-                  margin: const EdgeInsets.only(bottom: 16),
-                  elevation: 4,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 20),
+                  child: Card(
+                    elevation: 3,
+                    shadowColor: Colors.black.withOpacity(0.15),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        gradient: LinearGradient(
+                          colors: [
+                            Colors.white,
+                            Colors.green.shade50,
+                          ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(18),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Container(
-                              width: 60,
-                              height: 60,
-                              decoration: BoxDecoration(
-                                color: Colors.orange.shade100,
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Icon(
-                                mealPlan.type == 'Veg' ? Icons.eco : Icons.restaurant,
-                                size: 30,
-                                color: Colors.orange,
-                              ),
-                            ),
-                            const SizedBox(width: 16),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    mealPlan.name,
-                                    style: const TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
+                            // Header Row
+                            Row(
+                              children: [
+                                Container(
+                                  width: 70,
+                                  height: 70,
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Colors.orange.shade100,
+                                        Colors.orange.shade200,
+                                      ],
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                    ),
+                                    borderRadius: BorderRadius.circular(12),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.orange.withOpacity(0.2),
+                                        blurRadius: 6,
+                                        offset: const Offset(0, 3),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Icon(
+                                    mealPlan.type == 'Veg'
+                                        ? Icons.eco_rounded
+                                        : Icons.restaurant_rounded,
+                                    size: 36,
+                                    color: Colors.orange.shade600,
+                                  ),
+                                ),
+                                const SizedBox(width: 16),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        mealPlan.name,
+                                        style: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.black87,
+                                          letterSpacing: -0.3,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        '₹${mealPlan.price.toStringAsFixed(0)}/month',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.orange.shade600,
+                                          fontWeight: FontWeight.w700,
+                                          letterSpacing: -0.2,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 12,
+                                    vertical: 6,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.green.shade500,
+                                    borderRadius: BorderRadius.circular(8),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.green.withOpacity(0.3),
+                                        blurRadius: 6,
+                                        offset: const Offset(0, 2),
+                                      ),
+                                    ],
+                                  ),
+                                  child: const Text(
+                                    'Active',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w700,
+                                      letterSpacing: 0.3,
                                     ),
                                   ),
-                                  const SizedBox(height: 4),
-                                  Text(
-                                    '₹${mealPlan.price.toStringAsFixed(0)}/month',
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.orange,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ],
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 18),
+                            Divider(
+                              color: Colors.grey.shade300,
+                              height: 1,
+                              thickness: 1,
+                            ),
+                            const SizedBox(height: 14),
+                            // Menu Items Label
+                            const Text(
+                              'Meal Items Included',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.black87,
+                                letterSpacing: 0.2,
                               ),
                             ),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 8,
-                                vertical: 4,
+                            const SizedBox(height: 10),
+                            // Menu Items Chips
+                            Wrap(
+                              spacing: 8,
+                              runSpacing: 8,
+                              children: mealPlan.menuItems.take(3).map((item) {
+                                return Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 12,
+                                    vertical: 6,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.orange.shade50,
+                                    borderRadius: BorderRadius.circular(8),
+                                    border: Border.all(
+                                      color: Colors.orange.shade200,
+                                      width: 1,
+                                    ),
+                                  ),
+                                  child: Text(
+                                    item,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.orange.shade700,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                );
+                              }).toList(),
+                            ),
+                            if (mealPlan.menuItems.length > 3)
+                              Padding(
+                                padding: const EdgeInsets.only(top: 8),
+                                child: Text(
+                                  '+${mealPlan.menuItems.length - 3} more items',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.orange.shade600,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
                               ),
-                              decoration: BoxDecoration(
-                                color: Colors.green,
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                              child: const Text(
-                                'Active',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
+                            const SizedBox(height: 18),
+                            // Cancel Button
+                            SizedBox(
+                              width: double.infinity,
+                              height: 48,
+                              child: OutlinedButton.icon(
+                                onPressed: () => subscriptionsController
+                                    .cancelPlan(mealPlan.id),
+                                icon: const Icon(Icons.close_rounded),
+                                label: const Text('Cancel Subscription'),
+                                style: OutlinedButton.styleFrom(
+                                  foregroundColor: Colors.red.shade600,
+                                  side: BorderSide(
+                                    color: Colors.red.shade600,
+                                    width: 1.5,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
                                 ),
                               ),
                             ),
                           ],
                         ),
-                        const SizedBox(height: 16),
-                        const Divider(),
-                        const SizedBox(height: 12),
-                        const Text(
-                          'Menu:',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Wrap(
-                          spacing: 8,
-                          runSpacing: 4,
-                          children: mealPlan.menuItems.take(3).map((item) {
-                            return Chip(
-                              label: Text(
-                                item,
-                                style: const TextStyle(fontSize: 12),
-                              ),
-                              backgroundColor: Colors.grey.shade100,
-                              padding: EdgeInsets.zero,
-                            );
-                          }).toList(),
-                        ),
-                        if (mealPlan.menuItems.length > 3)
-                          Text(
-                            ' +${mealPlan.menuItems.length - 3} more',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.grey.shade600,
-                            ),
-                          ),
-                        const SizedBox(height: 16),
-                        SizedBox(
-                          width: double.infinity,
-                          child: OutlinedButton.icon(
-                            onPressed: () => subscriptionsController.cancelPlan(mealPlan.id),
-                            icon: const Icon(Icons.cancel_outlined),
-                            label: const Text('Cancel Plan'),
-                            style: OutlinedButton.styleFrom(
-                              foregroundColor: Colors.red,
-                              side: const BorderSide(color: Colors.red),
-                              padding: const EdgeInsets.symmetric(vertical: 12),
-                            ),
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                   ),
                 );

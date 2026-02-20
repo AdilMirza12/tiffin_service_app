@@ -12,10 +12,14 @@ class DetailsView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(mealPlan.name),
+        title: Text(
+          mealPlan.name,
+          style:
+              const TextStyle(fontWeight: FontWeight.w600, letterSpacing: 0.3),
+        ),
         centerTitle: true,
-        backgroundColor: Colors.orange,
-        foregroundColor: Colors.white,
+        elevation: 2,
+        shadowColor: Colors.black.withOpacity(0.1),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -23,29 +27,38 @@ class DetailsView extends StatelessWidget {
           children: [
             // Meal Image Placeholder
             Container(
-              height: 250,
+              height: 280,
               decoration: BoxDecoration(
-                color: Colors.grey.shade300,
+                gradient: LinearGradient(
+                  colors: [
+                    Colors.orange.shade100,
+                    Colors.orange.shade200,
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey.shade400,
-                    blurRadius: 4,
-                    offset: const Offset(0, 2),
+                    color: Colors.orange.withOpacity(0.2),
+                    blurRadius: 12,
+                    offset: const Offset(0, 4),
                   ),
                 ],
               ),
               child: Icon(
-                mealPlan.type == 'Veg' ? Icons.eco : Icons.restaurant,
-                size: 100,
-                color: Colors.orange,
+                mealPlan.type == 'Veg'
+                    ? Icons.eco_rounded
+                    : Icons.restaurant_rounded,
+                size: 120,
+                color: Colors.orange.shade600,
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(24.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Plan Info
+                  // Plan Info Header
                   Row(
                     children: [
                       Expanded(
@@ -53,129 +66,204 @@ class DetailsView extends StatelessWidget {
                           mealPlan.name,
                           style: const TextStyle(
                             fontSize: 28,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w800,
+                            color: Colors.black87,
+                            letterSpacing: -0.5,
                           ),
                         ),
                       ),
                       Container(
                         padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 6,
+                          horizontal: 14,
+                          vertical: 8,
                         ),
                         decoration: BoxDecoration(
                           color: mealPlan.category == 'Premium'
-                              ? Colors.amber
-                              : Colors.green,
-                          borderRadius: BorderRadius.circular(8),
+                              ? Colors.amber.shade400
+                              : Colors.green.shade500,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: (mealPlan.category == 'Premium'
+                                      ? Colors.amber
+                                      : Colors.green)
+                                  .withOpacity(0.3),
+                              blurRadius: 8,
+                              offset: const Offset(0, 3),
+                            ),
+                          ],
                         ),
                         child: Text(
                           mealPlan.category,
                           style: const TextStyle(
                             color: Colors.white,
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: 0.4,
                           ),
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 12),
                   Text(
                     mealPlan.description,
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 15,
                       color: Colors.grey.shade700,
+                      fontWeight: FontWeight.w400,
+                      height: 1.5,
+                      letterSpacing: 0.2,
                     ),
                   ),
-                  const SizedBox(height: 30),
-                  // Price
+                  const SizedBox(height: 28),
+                  // Price Card
                   Container(
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
-                      color: Colors.orange.shade50,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: Colors.orange.shade200),
+                      gradient: LinearGradient(
+                        colors: [
+                          Colors.orange.shade50,
+                          Colors.orange.shade100,
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(
+                        color: Colors.orange.shade200,
+                        width: 1.5,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.orange.withOpacity(0.1),
+                          blurRadius: 10,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         const Text(
-                          'Monthly Price:',
+                          'Monthly Price',
                           style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black87,
+                            letterSpacing: 0.3,
                           ),
                         ),
                         Text(
                           '₹${mealPlan.price.toStringAsFixed(0)}',
-                          style: const TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.orange,
+                          style: TextStyle(
+                            fontSize: 32,
+                            fontWeight: FontWeight.w800,
+                            color: Colors.orange.shade600,
+                            letterSpacing: -0.5,
                           ),
                         ),
                       ],
                     ),
                   ),
-                  const SizedBox(height: 30),
-                  // Menu Items
+                  const SizedBox(height: 32),
+                  // Menu Items Header
                   const Text(
-                    'Menu Items:',
+                    'What\'s Included',
                     style: TextStyle(
                       fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w800,
+                      color: Colors.black87,
+                      letterSpacing: -0.3,
                     ),
                   ),
-                  const SizedBox(height: 15),
-                  ...mealPlan.menuItems.map((item) => Padding(
-                        padding: const EdgeInsets.only(bottom: 10),
-                        child: Row(
+                  const SizedBox(height: 16),
+                  // Menu Items List
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: Colors.grey.shade50,
+                    ),
+                    padding: const EdgeInsets.all(12),
+                    child: Column(
+                      children: mealPlan.menuItems.map((item) {
+                        final isLast = mealPlan.menuItems.last == item;
+                        return Column(
                           children: [
-                            Icon(
-                              Icons.check_circle,
-                              color: Colors.green.shade600,
-                              size: 20,
-                            ),
-                            const SizedBox(width: 10),
-                            Expanded(
-                              child: Text(
-                                item,
-                                style: const TextStyle(fontSize: 16),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 12),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.all(6),
+                                    decoration: BoxDecoration(
+                                      color: Colors.green.shade500,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: const Icon(
+                                      Icons.check_rounded,
+                                      color: Colors.white,
+                                      size: 16,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 14),
+                                  Expanded(
+                                    child: Text(
+                                      item,
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        color: Colors.grey.shade800,
+                                        fontWeight: FontWeight.w500,
+                                        letterSpacing: 0.2,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
+                            if (!isLast)
+                              Divider(
+                                color: Colors.grey.shade300,
+                                height: 1,
+                                thickness: 1,
+                              ),
                           ],
-                        ),
-                      )),
-                  const SizedBox(height: 40),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                  const SizedBox(height: 36),
                   // Subscribe Button
                   Obx(() => SizedBox(
                         width: double.infinity,
-                        height: 50,
+                        height: 56,
                         child: ElevatedButton(
                           onPressed: detailsController.isLoading.value
                               ? null
                               : () => detailsController.subscribe(),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.orange,
-                            foregroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            elevation: 4,
-                          ),
                           child: detailsController.isLoading.value
-                              ? const CircularProgressIndicator(
-                                  color: Colors.white,
+                              ? const SizedBox(
+                                  height: 24,
+                                  width: 24,
+                                  child: CircularProgressIndicator(
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                      Colors.white,
+                                    ),
+                                    strokeWidth: 2.5,
+                                  ),
                                 )
                               : const Text(
                                   'Subscribe Now',
                                   style: TextStyle(
                                     fontSize: 18,
-                                    fontWeight: FontWeight.bold,
+                                    fontWeight: FontWeight.w700,
+                                    letterSpacing: 0.5,
                                   ),
                                 ),
                         ),
                       )),
+                  const SizedBox(height: 16),
                 ],
               ),
             ),
